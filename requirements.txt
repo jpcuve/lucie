@@ -1,0 +1,5 @@
+# fichier d'import de librairies dans l'environnement virtuel python (prendre python >= 3.7)
+flask
+flask-sqlalchemy
+# il y a un bug dans la version actuelle de numpy windows 1.19.4 c'est pourquoi je specifie 1.19.3
+numpy==1.19.3

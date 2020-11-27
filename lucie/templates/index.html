@@ -1,0 +1,18 @@
+{% extends 'template.html' %}
+
+{% block container %}
+<span>Hello world!</span>
+<span class="red">{{ message }}</span>
+<form method="post" action="submit-multiplicateur">
+    <input name="multiplicateur" type="number" min="1" max="5" value="1"/>
+    <input type="submit" value="Calcul"/>
+</form>
+<br/>
+<span>Valeurs venant de la db</span>
+<ul>
+        {% for value in values %}
+            <li>{{ value }}</li>
+        {% endfor %}
+
+</ul>
+{% endblock %}

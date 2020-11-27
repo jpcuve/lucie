@@ -1,0 +1,1 @@
+Il vaut mieux séparer le calcul (calcul.py) du processing des requêtes web (api_web.py).
