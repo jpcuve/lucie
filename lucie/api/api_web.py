@@ -26,3 +26,17 @@ def api_submit_multiplicateur():
     produit = multiplication(current_app.config['A'], multiplicateur)  # le A dans config.py
     current_app.logger.info(f"Produit: {produit}")
     return render_template('resultat.html', produit=str(produit))
+
+
+@bp.route('/recorder')
+def api_recorder():
+    return render_template('recorder.html')
+
+
+@bp.route('/audio-upload', methods=['POST'])
+def api_audio_upload():
+    print('Processing audio file')
+    file = request.files['audio-file']
+    print(file)
+    # because this URL is called by AJAX, the return value will be used in javascript to perform the navigation
+    return "/api/web/home"

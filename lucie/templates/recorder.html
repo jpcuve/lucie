@@ -1,0 +1,59 @@
+{% extends 'template.html' %}
+
+{% block container %}
+<span>Recorder</span>
+    <div>
+    <button id="control" data-recording="false" disabled>Start</button>
+    </div>
+    <script type="text/javascript">
+
+        const start = () => {
+            console.log('Start recording')
+            // request permission to use recorder
+            document.recorder.start()
+            // add callback for transmitting data
+            const chunks = []
+            document.recorder.addEventListener("dataavailable", e => chunks.push(e.data))
+            document.recorder.onstop = async () => {
+                // create blob from chunks
+                const blob = new Blob(chunks, {type: "audio/wav"})
+                // now post data to server
+                const formData = new FormData()
+                formData.append('audio-file', blob)
+                const response = await fetch('/api/web/audio-upload', {method: 'POST', body: formData})
+                // navigate away from this page
+                window.location.href = await response.text()
+            }
+        }
+
+        const stop = () => {
+            console.log('Stop recording')
+            document.recorder.stop()
+        }
+
+        const handleClick = (e) => {
+            const button = e.target;
+            const status = button.getAttribute('data-recording') === 'false'
+            console.log(`Recording: ${status}`);
+            button.setAttribute('data-recording', `${status}`)
+            button.innerText = status ? 'Stop' : 'Start'
+            if (status){
+                start()
+            } else {
+                stop()
+            }
+        }
+
+        const init = async () => {
+            const button = document.getElementById('control');
+            button.onclick = handleClick;
+            // request permission to use recorder
+            const stream = await navigator.mediaDevices.getUserMedia({audio: true})
+            // store recorder in document for usage in other functions
+            document.recorder = new MediaRecorder(stream)
+            // enable record button
+            button.disabled = false
+        }
+        window.onload = init;
+    </script>
+{% endblock %}

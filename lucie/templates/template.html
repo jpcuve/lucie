@@ -5,9 +5,14 @@
     <title>Title</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <base href="/"/>
     {% block header %}{% endblock %}
 </head>
 <body>
+<nav>
+    <a href="/api/web/home">Home</a>
+    <a href="/api/web/recorder">Recorder</a>
+</nav>
 <div>
     {% block container %}{% endblock %}
 </div>
